@@ -1,0 +1,13 @@
+---
+
+- import_tasks: kubelet-prepare.yml
+  tags:
+    - kubelet-prepare
+
+- import_tasks: kubelet-unit.yml
+  tags:
+    - kubelet-unit
+
+- import_tasks: approve-certificate.yml
+  tags:
+    - approve-certificate

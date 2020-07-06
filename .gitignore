@@ -1,0 +1,13 @@
+.idea
+download/*
+!download/download.sh
+roles/bootstrap/files/*.pem
+roles/bootstrap/vars/auth.yml
+roles/docker/files/docker
+roles/docker/files/dockerd
+roles/kubelet/files/kubelet
+roles/kube-scheduler/files/kube-scheduler
+roles/kube-proxy/files/kube-proxy
+roles/kube-controller-manager/files/kube-controller-manager
+roles/kube-apiserver/files/kube-apiserver
+roles/kube-apiserver/files/apiextensions-apiserver

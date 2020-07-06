@@ -1,0 +1,9 @@
+---
+
+- import_tasks: packages.yml
+  tags:
+    - package
+
+- import_tasks: iptables.yml
+  tags:
+    - iptables

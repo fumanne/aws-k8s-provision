@@ -1,0 +1,10 @@
+---
+
+- import_tasks: kube-proxy-prepare.yml
+  tags:
+    - kube-proxy-prepare
+
+- import_tasks: kube-proxy-unit.yml
+  tags:
+    - kube-proxy-unit
+

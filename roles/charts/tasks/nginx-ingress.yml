@@ -1,0 +1,5 @@
+---
+
+- name: Install nginx-ingress with Helm
+  shell: |
+    /root/local/bin/helm upgrade -i nginx-ingress --namespace kube-system  --debug --wait --force stable/nginx-ingress

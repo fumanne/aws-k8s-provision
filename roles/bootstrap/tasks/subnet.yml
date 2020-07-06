@@ -1,0 +1,56 @@
+---
+- include_vars: "common.yml"
+- include_vars: "auth.yml"
+- include_vars: "network.yml"
+
+
+- name: Create Subnet
+  local_action:
+    module: ec2_vpc_subnet
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    resource_tags:
+      Name: "{{ item.subnetname }}"
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    cidr: "{{ item.sub_cidr_block }}"
+    az: "{{ item.az }}"
+    region: "{{ common.region }}"
+    state: present
+  with_items: "{{ subnet }}"
+  register: subnet_info
+
+#- name: show subnet_info
+#  debug: var=subnet_info
+
+# TODO: ugly logic when add subnet for another az, it will be set id manually
+- name: Set pub-a subnet id
+  set_fact:
+    pub_a_subnet_id: "{{ item.subnet.id }}"
+  with_items: "{{ subnet_info.results }}"
+  when: item.subnet.tags.Name == subnet[0].subnetname
+
+- name: Set prv-a subnet id
+  set_fact:
+    prv_a_subnet_id: "{{ item.subnet.id }}"
+  with_items: "{{ subnet_info.results }}"
+  when: item.subnet.tags.Name == subnet[1].subnetname
+
+- name: Set pub-b subnet id
+  set_fact:
+    pub_b_subnet_id: "{{ item.subnet.id }}"
+  with_items: "{{ subnet_info.results }}"
+  when: item.subnet.tags.Name == subnet[2].subnetname
+
+- name: Set prv-b subnet id
+  set_fact:
+    prv_b_subnet_id: "{{ item.subnet.id }}"
+  with_items: "{{ subnet_info.results }}"
+  when: item.subnet.tags.Name == subnet[3].subnetname
+
+#- name: show subnet id
+#  debug: var={{ item }}
+#  with_items:
+#    - pub_a_subnet_id
+#    - prv_a_subnet_id
+#    - pub_b_subnet_id
+#    - prv_b_subnet_id

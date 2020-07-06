@@ -1,0 +1,24 @@
+---
+- import_tasks: vpc.yml
+  tags:
+    - vpc
+
+- import_tasks: subnet.yml
+  tags:
+    - subnet
+
+- import_tasks: igw.yml
+  tags:
+    - igw
+
+- import_tasks: nat.yml
+  tags:
+    - nat
+
+- import_tasks: sg.yml
+  tags:
+    - sg
+
+- import_tasks: ec2.yml
+  tags:
+    - ec2

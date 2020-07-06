@@ -1,0 +1,7 @@
+---
+- name: 下载helm
+  copy: src={{ item }} dest=/root/local/bin/{{ item }} mode=0755 owner=root
+  with_items:
+    - helm
+  tags:
+    - helm

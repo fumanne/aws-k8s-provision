@@ -1,0 +1,10 @@
+---
+
+- name: 下载etcd二进制文件
+  copy: src={{ item }} dest=/root/local/bin/{{ item }} mode=0755
+  with_items:
+  - etcd
+  - etcdctl
+
+- name: 创建etcd工作目录
+  file: name=/var/lib/etcd state=directory owner=root group=root mode=0755

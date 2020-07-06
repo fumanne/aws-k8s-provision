@@ -1,0 +1,5 @@
+---
+
+- name: Install CoreDNS with Helm
+  shell: |
+    /root/local/bin/helm upgrade -i coredns --namespace kube-system --set-string service.clusterIP=10.68.0.2 --debug --wait --force stable/coredns

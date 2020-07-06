@@ -1,0 +1,5 @@
+---
+- name: 分发bootstrap 证书 至所有node节点
+  copy: src={{ item }} dest={{ item }} mode=0755 owner=root
+  with_items:
+    - /etc/kubernetes/bootstrap.kubeconfig

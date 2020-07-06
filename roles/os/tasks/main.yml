@@ -1,0 +1,12 @@
+---
+- import_tasks: selinux.yml
+  tags:
+    - selinux
+
+- import_tasks: swap.yml
+  tags:
+    - swap
+
+- import_tasks: kernel.yml
+  tags:
+    - kernel

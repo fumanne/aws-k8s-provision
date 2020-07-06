@@ -1,0 +1,37 @@
+---
+- include_vars: "common.yml"
+- include_vars: "auth.yml"
+- include_vars: "network.yml"
+
+- name: Create Internet Gateway for pub subnet
+  local_action:
+    module: ec2_vpc_igw
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    resource_tags:
+      Name: "{{ igw.name }}"
+    region: "{{ common.region }}"
+    state: present
+  register: igw_info
+
+- name: show igw_info
+  debug: var=igw_info
+
+
+- name: Create pub subnet Route Table and assign igw
+  local_action:
+    module: ec2_vpc_route_table
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    region: "{{ common.region }}"
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    state: present
+    tags:
+      Name: "pub-rtb"
+    subnets:
+      - "{{ pub_a_subnet_id }}"
+      - "{{ pub_b_subnet_id }}"
+    routes:
+      - dest: 0.0.0.0/0
+        gateway_id: "{{ igw_info.gateway_id }}"

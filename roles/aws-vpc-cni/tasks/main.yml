@@ -1,0 +1,9 @@
+---
+
+- import_tasks: aws-vpc-cni-prepare.yml
+  tags:
+    - aws-vpc-cni-prepare
+
+- import_tasks: aws-vpc-cni.yml
+  tags:
+    - aws-vpc-cni

@@ -1,0 +1,50 @@
+---
+
+- name: register 内核模块
+  set_fact:
+    kernel_module__load_file: /etc/modules-load.d/ansible-kernel_module-role.conf
+    kernel_module_list:
+    - ip_set
+    - ip_tables
+    - ip6_tables
+    - ipt_REJECT
+    - ipt_rpfilter
+    - ipt_set
+    - nf_conntrack_netlink
+    - br_netfilter
+    - rbd
+    - ip_vs
+    - ip_vs_rr
+    - ip_vs_wrr
+    - ip_vs_sh
+    - nf_conntrack_ipv4
+    - sctp
+    - xt_addrtype
+    - xt_comment
+    - xt_conntrack
+    - xt_ipvs
+    - xt_mark
+    - xt_multiport
+    - xt_sctp
+    - xt_set
+    - xt_u32
+    - ipip
+
+- name: 加载内核模块
+  modprobe:
+    name: '{{ item }}'
+    state: present
+  with_items: "{{ kernel_module_list }}"
+  ignore_errors: true
+
+- name: Save kernel modules which should be loaded on boot
+  template:
+    src: 'modules-load.d/ansible-kernel_module-role.conf.j2'
+    dest: '{{ kernel_module__load_file }}'
+
+- name: 设置系统参数
+  copy: src=95-k8s-sysctl.conf dest=/etc/sysctl.d/95-k8s-sysctl.conf
+
+- name: 生效系统参数
+  shell: "sysctl -p /etc/sysctl.d/95-k8s-sysctl.conf"
+  ignore_errors: true

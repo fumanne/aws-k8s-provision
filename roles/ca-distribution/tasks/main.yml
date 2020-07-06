@@ -1,0 +1,29 @@
+---
+
+- import_tasks: ca.yml
+  tags:
+    - ca-distribution
+
+- import_tasks: admin-ca.yml
+  tags:
+    - admin-ca-distribution
+
+- import_tasks: bootstrap-ca.yml
+  tags:
+    - bootstrap-ca-distribution
+
+- import_tasks: kubeproxy-ca.yml
+  tags:
+    - kubeproxy-ca-distribution
+
+- import_tasks: kubernetes-ca.yml
+  tags:
+    - kubernetes-ca-distribution
+
+- import_tasks: aggregator-proxy-ca.yml
+  tags:
+    - aggregator-proxy-ca-distribution
+
+- import_tasks: etcd-ca.yml
+  tags:
+    - etcd-ca-distribution

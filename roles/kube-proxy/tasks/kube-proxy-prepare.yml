@@ -1,0 +1,14 @@
+---
+- name: Create kubeproxy Dir
+  file: path={{ item }} state=directory owner=root group=root mode=0755
+  with_items:
+    - /var/lib/kube-proxy
+
+- name: 下载 kube-proxy
+  copy: src={{ item }} dest=/root/local/bin/{{ item }} mode=0755
+  with_items:
+  - kube-proxy
+
+- name: 安装kube-proxy.kubeconfig配置文件
+  copy: src=/etc/kubernetes/kube-proxy.kubeconfig dest=/etc/kubernetes/kube-proxy.kubeconfig
+

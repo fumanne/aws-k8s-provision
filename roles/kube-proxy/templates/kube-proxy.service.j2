@@ -1,0 +1,24 @@
+[Unit]
+Description=Kubernetes Kube-Proxy Server
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=network.target
+
+[Service]
+# kube-proxy 根据 --cluster-cidr 判断集群内部和外部流量，指定 --cluster-cidr 或 --masquerade-all 选项后
+# kube-proxy 会对访问 Service IP 的请求做 SNAT，这个特性与calico 实现 network policy冲突，因此禁用
+# calico 3.1 版本已修正此问题
+WorkingDirectory=/var/lib/kube-proxy
+ExecStart=/root/local/bin/kube-proxy \
+  --bind-address={{ node_ip }} \
+  --cluster-cidr=172.20.0.0/16 \
+  --hostname-override={{ hostname }} \
+  --kubeconfig=/etc/kubernetes/kube-proxy.kubeconfig \
+  --logtostderr=true \
+  --proxy-mode=ipvs \
+  --v=2
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

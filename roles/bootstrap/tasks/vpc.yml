@@ -1,0 +1,20 @@
+---
+- include_vars: "common.yml"
+- include_vars: "auth.yml"
+- include_vars: "network.yml"
+
+
+
+- name: Create VPC
+  local_action:
+    module: ec2_vpc_net
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    name: "{{ vpc.name }}"
+    cidr_block: "{{ vpc.cidr_block }}"
+    region: "{{ common.region }}"
+    state: present
+  register: vpc_info
+
+#- name: show vpc_info
+#  debug: var=vpc_info

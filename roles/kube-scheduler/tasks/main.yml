@@ -1,0 +1,9 @@
+---
+
+- import_tasks: kube-scheduler-prepare.yml
+  tags:
+    - kube-scheduler-prepare
+
+- import_tasks: kube-scheduler-unit.yml
+  tags:
+    - kube-scheduler-unit

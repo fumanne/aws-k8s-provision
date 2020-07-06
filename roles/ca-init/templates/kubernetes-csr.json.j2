@@ -1,0 +1,29 @@
+{
+  "CN": "kubernetes",
+  "hosts": [
+{% for host in groups['kube-master'] %}
+    "{{ hostvars[host]['node_ip']  }}",
+{% endfor %}
+    "127.0.0.1",
+    "10.68.0.1",
+    "{{ KUBE_APISERVER.split(':')[1].lstrip('/') }}",
+    "kubernetes",
+    "kubernetes.default",
+    "kubernetes.default.svc",
+    "kubernetes.default.svc.cluster",
+    "kubernetes.default.svc.cluster.local"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "CN",
+      "ST": "ShangHai",
+      "L": "ShangHai",
+      "O": "k8s",
+      "OU": "System"
+    }
+  ]
+}

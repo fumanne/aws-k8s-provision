@@ -1,0 +1,9 @@
+---
+
+- import_tasks: kube-apiserver-prepare.yml
+  tags:
+    - kube-apiserver-prepare
+
+- import_tasks: kube-apiserver-unit.yml
+  tags:
+    - kube-apiserver-unit

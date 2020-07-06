@@ -1,0 +1,9 @@
+---
+
+- import_tasks: kube-controller-manager-prepare.yml
+  tags:
+    - kube-controller-manager-prepare
+
+- import_tasks: kube-controller-manager-unit.yml
+  tags:
+    - kube-controller-manager-unit

@@ -1,0 +1,5 @@
+---
+common:
+  region: cn-north-1
+  ami: ami-010e92a33d9d1fc40
+  keyname: my-ssh-key

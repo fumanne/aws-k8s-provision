@@ -1,0 +1,6 @@
+---
+
+- name: Deploy flannel with Yaml
+  shell: "/root/local/bin/kubectl apply -f /root/local/flannel/kube-flannel.yaml && sleep 5"
+
+

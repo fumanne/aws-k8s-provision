@@ -1,0 +1,51 @@
+---
+
+instance:
+
+#deploy
+  - instance_name:
+      - "node10"
+    instance_type: c3.large
+    image: "{{ common.ami }}"
+    zone: "{{ common.region }}a"
+    monitoring: no
+    flag: deploy
+
+#kube-master
+  - instance_name:
+      - "node11"
+      - "node12"
+    instance_type: c3.large
+    image: "{{ common.ami }}"
+    zone: "{{ common.region }}a"
+    monitoring: no
+    flag: k8s
+
+#kube-master
+  - instance_name:
+      - "node13"
+    instance_type: c3.large
+    image: "{{ common.ami }}"
+    zone: "{{ common.region }}b"
+    monitoring: no
+    flag: k8s
+
+
+#kube-node
+  - instance_name:
+      - "node14"
+      - "node15"
+    instance_type: c3.large
+    image: "{{ common.ami }}"
+    zone: "{{ common.region }}a"
+    monitoring: no
+    flag: k8s
+
+#kube-node
+  - instance_name:
+      - "node16"
+    instance_type: c3.large
+    image: "{{ common.ami }}"
+    zone: "{{ common.region }}b"
+    monitoring: no
+    flag: k8s

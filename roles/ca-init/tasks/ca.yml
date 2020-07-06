@@ -1,0 +1,10 @@
+---
+
+- name: 准备CA配置文件
+  template: src=ca-config.json.j2 dest=/etc/kubernetes/ssl/ca-config.json
+
+- name: 准备CA签名请求
+  template: src=ca-csr.json.j2 dest=/etc/kubernetes/ssl/ca-csr.json
+
+- name: 生成 CA 根证书和私钥
+  shell: "cd /etc/kubernetes/ssl && /root/local/bin/cfssl gencert -initca ca-csr.json | /root/local/bin/cfssljson -bare ca"

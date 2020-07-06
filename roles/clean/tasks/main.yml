@@ -1,0 +1,41 @@
+---
+
+- name: Clean kube-master
+  shell: |
+    systemctl stop kube-apiserver
+    systemctl stop kube-controller-manager
+    systemctl stop kube-scheduler
+    systemctl stop kubelet
+    systemctl stop kube-proxy
+    systemctl stop etcd
+    rm -rf /etc/systemd/system/kube-apiserver.service
+    rm -rf /etc/systemd/system/kube-controller-manager.service
+    rm -rf /etc/systemd/system/kube-schduler.service
+    rm -rf /etc/systemd/system/etcd.service
+    rm -rf /etc/systemd/system/kubelet.service
+    rm -rf /etc/systemd/system/kube-proxy.service
+    rm -rf /etc/kubernetes
+    rm -rf /var/lib/etcd
+    rm -rf /var/lib/kubelet
+    rm -rf /etc/cni/net.d
+    iptables -t nat -F
+    iptables -t mangle -F
+    iptables -F
+    iptables -X
+  delegate_to: "{{ item }}"
+  loop: "{{ groups['kube-master'] }}"
+
+- name:  Clean kube-node
+  shell: |
+    systemctl stop kubelet
+    systemctl stop kube-proxy
+    rm -rf /etc/kubernetes
+    rm -rf /var/lib/kubelet
+    rm -rf /etc/cni/net.d
+    iptables -t nat -F
+    iptables -t mangle -F
+    iptables -F
+    iptables -X
+  delegate_to: "{{ item }}"
+  loop: "{{ groups['kube-node'] }}"
+

@@ -1,0 +1,24 @@
+---
+
+- name: update iptables v1.6.2
+  shell: |
+    export LC_ALL=C
+    cd /tmp
+    wget https://www.netfilter.org/projects/iptables/files/iptables-1.6.2.tar.bz2
+    bzip2 -d iptables-1.6.2.tar.bz2
+    tar -xvf iptables-1.6.2.tar
+    cd iptables-1.6.2
+    ./autogen.sh
+    ./configure
+    make -j4
+    make install
+    cp /usr/local/sbin/iptables /usr/sbin/
+    cp /usr/local/sbin/iptables-save /usr/sbin/
+    cp /usr/local/sbin/iptables-restore /usr/sbin/
+
+
+- name: flush-iptables
+  shell: "iptables -F && iptables -X \
+        && iptables -F -t nat && iptables -X -t nat \
+        && iptables -F -t raw && iptables -X -t raw \
+        && iptables -F -t mangle && iptables -X -t mangle"

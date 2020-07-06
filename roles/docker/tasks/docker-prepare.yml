@@ -1,0 +1,15 @@
+---
+
+- name: Copy docker 二进制文件
+  copy: src={{ item }} dest=/root/local/bin/{{ item }} mode=0755
+  with_items:
+  - containerd
+  - containerd-shim
+  - docker-init
+  - runc
+  - docker
+  - ctr
+  - dockerd
+  - docker-proxy
+  - docker-compose
+

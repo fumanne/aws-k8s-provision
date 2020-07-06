@@ -1,0 +1,75 @@
+---
+
+vpc:
+  name: "vpc"
+  cidr_block: 192.168.0.0/16
+
+
+whiteip:
+  - 0.0.0.0/0
+
+
+subnet:
+  - subnetname: "pub-a"
+    sub_cidr_block: 192.168.1.0/24
+    az: "{{ common.region }}a"
+
+  - subnetname: "prv-a"
+    sub_cidr_block: 192.168.2.0/24
+    az: "{{ common.region }}a"
+
+  - subnetname: "pub-b"
+    sub_cidr_block: 192.168.3.0/24
+    az: "{{ common.region }}b"
+
+  - subnetname: "prv-b"
+    sub_cidr_block: 192.168.4.0/24
+    az: "{{ common.region }}b"
+
+
+igw:
+  name: "igw"
+
+
+k8s_lb:
+  name: "k8s-lb"
+
+
+eip:
+  nateip_name: "nat-eip"
+  admineip_name: "admin-eip"
+
+
+natgateway:
+  name: "nat-gateway"
+
+
+sg:
+  pub:
+    name: "pub-sg"
+    rules:
+      - proto: tcp
+        ports: 22
+        cidr_ip: "{{ whiteip }}"
+      - proto: tcp
+        ports: 443
+        cidr_ip: "{{ whiteip }}"
+      - proto: all
+        cidr_ip: "10.0.0.0/8"
+      - proto: all
+        cidr_ip: "172.20.0.0/16"
+      - proto: all
+        cidr_ip: "192.168.0.0/16"
+
+  prv:
+    name: "prv-sg"
+    rules:
+      - proto: all
+        cidr_ip: "10.0.0.0/8"
+      - proto: all
+        cidr_ip: "172.20.0.0/16"
+      - proto: all
+        cidr_ip: "192.168.0.0/16"
+      - proto: tcp
+        ports: 6443
+        cidr_ip: "{{ whiteip }}"

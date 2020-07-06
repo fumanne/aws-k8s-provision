@@ -1,0 +1,20 @@
+---
+- name: Create aws-vpc-cni directory
+  file: path=/root/local/aws-vpc-cni/ state=directory owner=root group=root mode=0755
+
+- name: Copy Yaml File
+  copy: src={{ item }} dest=/root/local/aws-vpc-cni/{{ item }} mode=0755
+  with_items:
+    - aws-k8s-cni-cn.yaml
+    - cni-metrics-helper-cn.yaml
+
+- name: 获取最新 secret password token
+  shell: aws ecr get-login --registry-id 961992271922 --region cn-northwest-1 --no-include-email | awk '{print $6}'
+  register: token
+
+- name: Create ECR Secret
+  shell: |
+    /root/local/bin/kubectl delete secret aws-vpc-cni-secret -n kube-system
+    /root/local/bin/kubectl create secret docker-registry aws-vpc-cni-secret --docker-server=https://961992271922.dkr.ecr.cn-northwest-1.amazonaws.com.cn \
+    --docker-username=AWS --docker-password={{ token.stdout }} --namespace=kube-system
+

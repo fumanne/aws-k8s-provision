@@ -1,0 +1,10 @@
+---
+
+- name: 分发ca 根证书 至所有节点
+  copy: src={{ item }} dest={{ item }} mode=0755 owner=root
+  with_items:
+    - /etc/kubernetes/ssl/ca.pem
+    - /etc/kubernetes/ssl/ca-key.pem
+    - /etc/kubernetes/ssl/ca-config.json
+    - /etc/kubernetes/ssl/ca-csr.json
+    - /etc/kubernetes/ssl/ca.csr

@@ -1,0 +1,5 @@
+---
+- name: 下载 kube-controller-manager 二进制
+  copy: src={{ item }} dest=/root/local/bin/{{ item }} mode=0755
+  with_items:
+  - kube-controller-manager

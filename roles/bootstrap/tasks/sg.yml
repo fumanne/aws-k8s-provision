@@ -1,0 +1,31 @@
+---
+- include_vars: "common.yml"
+- include_vars: "auth.yml"
+- include_vars: "network.yml"
+
+- name: Create Security Group for pub subnet
+  local_action:
+    module: ec2_group
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    region: "{{ common.region }}"
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    state: present
+    name: "{{ sg.pub.name }}"
+    description: "pub subnet security group"
+    rules: "{{ sg.pub.rules }}"
+  register: public_sg_info
+
+
+- name: Create Security Group for prv subnet
+  local_action:
+    module: ec2_group
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    region: "{{ common.region }}"
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    state: present
+    name: "{{ sg.prv.name }}"
+    description: "prv subnet security group"
+    rules: "{{ sg.prv.rules }}"
+  register: private_sg_info

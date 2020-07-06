@@ -1,0 +1,9 @@
+---
+
+- import_tasks: etcd-prepare.yml
+  tags:
+    - etcd-prepare
+
+- import_tasks: etcd-unit.yml
+  tags:
+    - etcd-unit

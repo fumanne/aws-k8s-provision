@@ -1,0 +1,6 @@
+---
+- name: Deploy aws-vpc-cni with Yaml
+  shell: |
+    /root/local/bin/kubectl apply -f /root/local/aws-vpc-cni/aws-k8s-cni-cn.yaml
+    /root/local/bin/kubectl apply -f /root/local/aws-vpc-cni/cni-metrics-helper-cn.yaml
+

@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  connection: local
+  roles:
+    - bootstrap
+
+  tasks:
+    - name: "TAG one run"
+      debug:
+        msg: "TAG one Run"
+      tags: one
+
+    - name: "TAG two run"
+      debug:
+        msg: "TAG two Run"
+      tags: two

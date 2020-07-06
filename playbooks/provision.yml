@@ -1,0 +1,71 @@
+---
+
+- hosts: all
+  roles:
+    - base-package
+    - os
+    - docker
+
+- hosts: deploy
+  roles:
+    - ca-init
+
+- hosts: all
+  roles:
+    - ca-distribution
+
+- hosts: kube-master
+  roles:
+    - etcd
+    - kube-apiserver
+    - kube-controller-manager
+    - kube-scheduler
+    - kubelet
+    - kube-proxy
+
+- hosts: deploy
+  roles:
+    - bootstrap-kubeconfig
+
+- hosts: kube-node
+  roles:
+    - kubelet
+    - kube-proxy
+
+- hosts: deploy
+  roles:
+    - { role: calico, when: "CLUSTER_NETWORK == 'calico'" }
+    - { role: aws-vpc-cni, when: "CLUSTER_NETWORK == 'aws-vpc-cni'" }
+    - { role: flannel, when: "CLUSTER_NETWORK == 'flannel'" }
+
+- hosts: all
+  roles:
+    - default-cni
+
+- hosts: deploy
+  roles:
+    - helm
+    - aws-ebs
+
+- name: master setting
+  hosts: kube-master
+  tasks:
+    - name: Set Master label
+      shell: /root/local/bin/kubectl label node {{ hostname }} node-role.kubernetes.io/master="" --overwrite
+
+    - name: Taint Master
+      shell: /root/local/bin/kubectl taint node {{ hostname }} node-role.kubernetes.io/master=true:NoSchedule
+  tags:
+    - master-label
+
+- name:  node setting
+  hosts: kube-node
+  tasks:
+    - name: Set Node label
+      shell: /root/local/bin/kubectl label node {{ hostname }} node-role.kubernetes.io/node="" --overwrite
+  tags:
+    - node-label
+
+- hosts: deploy
+  roles:
+    - charts

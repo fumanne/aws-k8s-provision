@@ -1,0 +1,8 @@
+---
+- import_tasks: calico-prepare.yml
+  tags:
+    - calico-prepare
+
+- import_tasks: calico.yml
+  tags:
+    - calico

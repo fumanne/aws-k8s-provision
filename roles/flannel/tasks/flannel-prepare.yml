@@ -1,0 +1,6 @@
+---
+- name: 创建flannel cni 相关目录
+  file: path=/root/local/flannel/ state=directory owner=root group=root mode=0755
+
+- name: 准备 flannel DaemonSet yaml文件
+  template: src=kube-flannel.yaml.j2 dest=/root/local/flannel/kube-flannel.yaml

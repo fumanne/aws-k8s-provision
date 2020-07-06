@@ -1,0 +1,35 @@
+---
+
+- import_tasks: ca.yml
+  tags:
+    - ca-init
+
+- import_tasks: admin-ca.yml
+  tags:
+    - admin-ca-init
+
+- import_tasks: bootstrap-ca.yml
+  tags:
+    - bootstrap-ca-init
+
+- import_tasks: kubeproxy-ca.yml
+  tags:
+    - kubeproxy-ca-init
+
+- import_tasks: kubernetes-ca.yml
+  tags:
+    - kubernetes-ca-init
+
+- import_tasks: aggregator-proxy-ca.yml
+  tags:
+    - aggregator-proxy-ca-init
+
+- import_tasks: etcd-ca.yml
+  tags:
+    - etcd-ca-init
+
+
+
+
+
+

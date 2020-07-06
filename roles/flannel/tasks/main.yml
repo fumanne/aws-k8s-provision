@@ -1,0 +1,12 @@
+---
+
+- import_tasks: flannel-prepare.yml
+  tags:
+    - flannel-prepare
+
+- import_tasks: flannel.yml
+  tags:
+    - flannel
+
+
+

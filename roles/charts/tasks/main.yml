@@ -1,0 +1,13 @@
+---
+
+- import_tasks: coredns.yml
+  tags:
+    - coredns
+
+- import_tasks: metrics-server.yml
+  tags:
+    - metrics-server
+
+- import_tasks: nginx-ingress.yml
+  tags:
+    - nginx-ingress

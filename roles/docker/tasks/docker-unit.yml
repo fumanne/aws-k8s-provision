@@ -1,0 +1,10 @@
+---
+
+- name: 创建docker的systemd unit文件
+  template: src=docker.service.j2 dest=/etc/systemd/system/docker.service
+
+- name: 开机启用docker 服务
+  shell: systemctl enable docker
+
+- name: 开启docker 服务
+  shell: systemctl daemon-reload && systemctl restart docker

@@ -1,0 +1,8 @@
+roles/docker/files/docker filter=lfs diff=lfs merge=lfs -text
+roles/docker/files/dockerd filter=lfs diff=lfs merge=lfs -text
+roles/kubelet/files/kubelet filter=lfs diff=lfs merge=lfs -text
+roles/kube-scheduler/files/kube-scheduler filter=lfs diff=lfs merge=lfs -text
+roles/kube-proxy/files/kube-proxy filter=lfs diff=lfs merge=lfs -text
+roles/kube-controller-manager/files/kube-controller-manager filter=lfs diff=lfs merge=lfs -text
+roles/kube-apiserver/files/kube-apiserver filter=lfs diff=lfs merge=lfs -text
+roles/kube-apiserver/files/apiextensions-apiserver filter=lfs diff=lfs merge=lfs -text

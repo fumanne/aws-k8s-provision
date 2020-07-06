@@ -1,0 +1,11 @@
+---
+
+- name: Add Storage Class configuration
+  copy: src=storageclass.yaml dest=/tmp/storageclass.yaml mode=0644
+  tags:
+    - aws-ebs
+
+- name: Load storage class into configuration
+  shell:  /root/local/bin/kubectl apply -f /tmp/storageclass.yaml
+  tags:
+    - aws-ebs

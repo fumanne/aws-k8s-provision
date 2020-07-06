@@ -1,0 +1,122 @@
+---
+- include_vars: "common.yml"
+- include_vars: "auth.yml"
+- include_vars: "network.yml"
+- include_vars: "instances.yml"
+
+- name: Create an EC2 key
+  local_action:
+    module: ec2_key
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    name: "{{ common.keyname }}"
+    region: "{{ common.region }}"
+  register: ec2_key
+
+#- name: debug ec_key
+#  debug: var=ec2_key
+
+- name: save SSH Key
+  copy: content="{{ ec2_key.key.private_key }}" dest={{ role_path }}/files/aws-{{ common.keyname }}.pem mode=0600
+  when: ec2_key.changed
+
+- name: Create Deploy EC2
+  local_action:
+    module: ec2
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    key_name: "{{ common.keyname }}"
+    region: "{{ common.region }}"
+    vpc_subnet_id: "{{ pub_a_subnet_id }}"
+    image: "{{ item.0.image }}"
+    instance_type: "{{ item.0.instance_type }}"
+    zone: "{{ item.0.zone }}"
+    monitoring: "{{ item.0.monitoring }}"
+    assign_public_ip: yes
+    group_id: "{{ public_sg_info.group_id }}"
+#    state: present
+#    id: "{{ item.1 }}"
+    count_tag:
+      Name: "{{ item.1 }}"
+    exact_count: 1
+    instance_tags:
+      Name: "{{ item.1 }}"
+  with_subelements:
+    - "{{ instance }}"
+    - instance_name
+  when: item.0.flag == "deploy"
+
+
+- name: Create k8s EC2 for az-A
+  local_action:
+    module: ec2
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    key_name: "{{ common.keyname }}"
+    region: "{{ common.region }}"
+    vpc_subnet_id: "{{ prv_a_subnet_id }}"
+    image: "{{ item.0.image }}"
+    instance_type: "{{ item.0.instance_type }}"
+    zone: "{{ item.0.zone }}"
+    monitoring: "{{ item.0.monitoring }}"
+    group_id: "{{ private_sg_info.group_id }}"
+#    state: present
+#    id: "{{ item.1 }}"
+    count_tag:
+      Name: "{{ item.1 }}"
+    exact_count: 1
+    instance_tags:
+      Name: "{{ item.1 }}"
+      KubernetesCluster: "kubernetes"
+  with_subelements:
+    - "{{ instance }}"
+    - instance_name
+  when:
+    - item.0.flag == "k8s"
+    - item.0.zone | regex_search(".*a$")
+
+- name: Create k8s EC2 for az-B
+  local_action:
+    module: ec2
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    key_name: "{{ common.keyname }}"
+    region: "{{ common.region }}"
+    vpc_subnet_id: "{{ prv_b_subnet_id }}"
+    image: "{{ item.0.image }}"
+    instance_type: "{{ item.0.instance_type }}"
+    zone: "{{ item.0.zone }}"
+    monitoring: "{{ item.0.monitoring }}"
+    group_id: "{{ private_sg_info.group_id }}"
+#    state: present
+#    id: "{{ item.1 }}"
+    count_tag:
+      Name: "{{ item.1 }}"
+    exact_count: 1
+    instance_tags:
+      Name: "{{ item.1 }}"
+      KubernetesCluster: "kubernetes"
+  with_subelements:
+    - "{{ instance }}"
+    - instance_name
+  when:
+    - item.0.flag == "k8s"
+    - item.0.zone | regex_search(".*b$")
+
+- name: fetch ec2
+  local_action:
+    module: ec2_instance_facts
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    region: "{{ common.region }}"
+    filters:
+      vpc-id: "{{ vpc_info.vpc.id }}"
+  register: ec2_info
+
+- name: Set instances sorted by Name
+  set_fact:
+    instances: "{{ ec2_info.instances | sort(attribute='tags.Name') }}"
+
+- name: debug instances
+  debug: var=instances
+

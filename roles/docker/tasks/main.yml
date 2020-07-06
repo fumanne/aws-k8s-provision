@@ -1,0 +1,13 @@
+---
+- import_tasks: docker-prepare.yml
+  tags:
+    - docker-prepare
+
+- import_tasks: mirror.yml
+  tags:
+    - mirror
+
+- import_tasks: docker-unit.yml
+  tags:
+    - docker-unit
+

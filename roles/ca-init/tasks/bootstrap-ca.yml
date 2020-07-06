@@ -1,0 +1,22 @@
+---
+
+- name: 设置集群参数
+  shell: "/root/local/bin/kubectl config set-cluster kubernetes \
+        --certificate-authority=/etc/kubernetes/ssl/ca.pem \
+        --embed-certs=true \
+        --server={{ KUBE_APISERVER }} \
+        --kubeconfig=/etc/kubernetes/bootstrap.kubeconfig"
+
+- name: 设置客户端认证参数
+  shell: "/root/local/bin/kubectl config set-credentials kubelet-bootstrap \
+        --token={{ BOOTSTRAP_TOKEN }} \
+        --kubeconfig=/etc/kubernetes/bootstrap.kubeconfig"
+
+- name: 设置上下文参数
+  shell: "/root/local/bin/kubectl config set-context default \
+        --cluster=kubernetes \
+        --user=kubelet-bootstrap \
+        --kubeconfig=/etc/kubernetes/bootstrap.kubeconfig"
+
+- name: 选择默认上下文
+  shell: "/root/local/bin/kubectl config use-context default --kubeconfig=/etc/kubernetes/bootstrap.kubeconfig"

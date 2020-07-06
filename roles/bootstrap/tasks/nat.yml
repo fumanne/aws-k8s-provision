@@ -1,0 +1,122 @@
+---
+- include_vars: "common.yml"
+- include_vars: "auth.yml"
+- include_vars: "network.yml"
+
+- name: List EIPs by filter tags.Name
+  local_action:
+    module: ec2_eip_facts
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    region: "{{ common.region }}"
+    filters:
+      "tag:Name": "{{ eip.nateip_name }}"
+  register: eips_info
+
+
+- name: Set nateip info
+  set_fact:
+    nateip_info: "{{ eips_info.addresses[0] }}"
+  when: eips_info.addresses | length == 1
+
+
+- name: Create NAT EIP for prv subnet
+  local_action:
+    module: ec2_eip
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    state: present
+    reuse_existing_ip_allowed: yes
+    region: "{{ common.region }}"
+  register: nateip_info
+  when: nateip_info is not defined
+
+- name: Set nateip info if Creat EIP step for prv subnet is skipped
+  set_fact:
+    nateip_info: "{{ eips_info.addresses[0] }}"
+  when: eips_info.addresses | length == 1 and nateip_info.skipped
+
+#- name: debug
+#  debug: var=nateip_info
+
+- name: Set tags.Name for nateip
+  local_action:
+    module: ec2_tag
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    region: "{{ common.region }}"
+    resource: "{{ nateip_info.allocation_id }}"
+    tags:
+      Name: "{{ eip.nateip_name }}"
+    state: present
+
+- name: List NatGateways by filter tags.Name
+  local_action:
+    module: ec2_vpc_nat_gateway_facts
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    region: "{{ common.region }}"
+    filters:
+      "tag:Name": "{{ natgateway.name }}"
+      "state": ['available', 'pending']
+  register: natgateways_info
+
+- name: Set natgateway info
+  set_fact:
+    natgateway_info: "{{ natgateways_info.result[0] }}"
+  when: natgateways_info.result | length == 1
+
+#- name: debug
+#  debug: var=natgateway_info
+
+# 私有子网要访问internet 需要创建nat gateway, 此gateway 必须位于公有子网下 即(上诉的子网添加的igw)
+- name: Create Nat Gateway for prv subnet, need waiting a moment
+  local_action:
+    module: ec2_vpc_nat_gateway
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    if_exist_do_not_create: true
+    state: present
+    subnet_id: "{{ pub_a_subnet_id }}"
+    region: "{{ common.region }}"
+    allocation_id: "{{ nateip_info.allocation_id }}"
+    wait: yes
+  register: natgateway_info
+  when: natgateway_info is not defined
+
+
+- name: Set natgateway info if create Nat Gateway for prv subnet is skipped
+  set_fact:
+    natgateway_info: "{{ natgateways_info.result[0] }}"
+  when: natgateways_info.result | length == 1 and natgateway_info.skipped
+
+
+- name: Set tags.Name for Nat Gateway
+  local_action:
+    module: ec2_tag
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    region: "{{ common.region }}"
+    resource: "{{ natgateway_info.nat_gateway_id }}"
+    tags:
+      Name: "{{ natgateway.name }}"
+    state: present
+
+
+- name: Create prv subnet rtb and assign Nat Gateway
+  local_action:
+    module: ec2_vpc_route_table
+    aws_access_key: "{{ auth.aws_access_key }}"
+    aws_secret_key: "{{ auth.aws_secret_key }}"
+    region: "{{ common.region }}"
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    state: present
+    tags:
+      Name: "prv-rtb"
+      KubernetesCluster: "kubernetes"
+    subnets:
+      - "{{ prv_a_subnet_id }}"
+      - "{{ prv_b_subnet_id }}"
+    routes:
+    - dest: 0.0.0.0/0
+      gateway_id: "{{ natgateway_info.nat_gateway_id }}"

@@ -1,0 +1,7 @@
+---
+- name: 分发 etcd 证书 至所有master节点
+  copy: src={{ item }} dest={{ item }} mode=0755 owner=root
+  with_items:
+    - /etc/kubernetes/ssl/etcd.pem
+    - /etc/kubernetes/ssl/etcd-key.pem
+    - /etc/kubernetes/ssl/etcd.csr

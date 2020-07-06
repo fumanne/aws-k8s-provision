@@ -1,0 +1,81 @@
+---
+- name: Create Binary directory
+  file: path={{ item }} state=directory owner=root group=root mode=0755
+  with_items:
+    - /root/local/bin
+    - /etc/kubernetes/ssl
+    - /etc/docker
+    - /root/.kube/
+    - /opt/cni/bin
+    - /etc/cni/net.d
+
+- name: upgrade all packages
+  yum: name=* state=latest
+
+- name: Setting timezone to UTC
+  timezone:
+    name: UTC
+
+- name: restart cron (apply UTC)
+  service:
+    name: crond
+    state: restarted
+  changed_when: False
+
+- name: Install base package
+  package:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - bind-utils
+    - unzip
+    - htop
+    - jq
+    - wget
+    - NetworkManager
+    - dstat
+    - bash-completion
+    - python-pip
+    - telnet
+    - gcc
+    - make
+    - libnftnl-devel
+    - libmnl-devel
+    - autoconf
+    - automake
+    - libtool
+    - bison
+    - flex
+    - libnetfilter_conntrack-devel
+    - libnetfilter_queue-devel
+    - libpcap-devel
+    - bzip2
+    - socat
+    - psmisc
+    - nfs-utils
+    - net-tools
+    - ipset
+    - ipvsadm
+    - conntrack
+
+- name: 删除centos默认安装
+  yum:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+    - firewalld
+    - python-firewall
+    - firewalld-filesystem
+
+- name: Copy Variable Package
+  copy: src={{ item }} dest=/root/local/bin/{{ item }} mode=0755
+  with_items:
+    - cfssl
+    - cfssl-certinfo
+    - cfssljson
+    - kubectl
+
+- name: Copy SSH Private Key
+  copy: src={{ role_path }}/../bootstrap/files/aws-my-ssh-key.pem dest=/root/aws-my-ssh-key.pem mode=0600
