@@ -1,8 +1,8 @@
 ---
-- name: 创建 aggregator proxy证书签名请求
+- name: Render aggreator proxy CA CSR
   template: src=aggregator-proxy-csr.json.j2 dest=/etc/kubernetes/ssl/aggregator-proxy-csr.json
 
-- name: 创建 aggregator-proxy证书和私钥
+- name: Create aggregator proxy CA
   shell: "cd /etc/kubernetes/ssl && /root/local/bin/cfssl gencert \
         -ca=/etc/kubernetes/ssl/ca.pem \
         -ca-key=/etc/kubernetes/ssl/ca-key.pem \

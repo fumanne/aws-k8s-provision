@@ -1,6 +1,6 @@
 ---
 
-- name: register 内核模块
+- name: Register kernel module
   set_fact:
     kernel_module__load_file: /etc/modules-load.d/ansible-kernel_module-role.conf
     kernel_module_list:
@@ -30,7 +30,7 @@
     - xt_u32
     - ipip
 
-- name: 加载内核模块
+- name: Load kernel module
   modprobe:
     name: '{{ item }}'
     state: present
@@ -42,9 +42,9 @@
     src: 'modules-load.d/ansible-kernel_module-role.conf.j2'
     dest: '{{ kernel_module__load_file }}'
 
-- name: 设置系统参数
+- name: Copy sysctl conf
   copy: src=95-k8s-sysctl.conf dest=/etc/sysctl.d/95-k8s-sysctl.conf
 
-- name: 生效系统参数
+- name: Valid systcl confg
   shell: "sysctl -p /etc/sysctl.d/95-k8s-sysctl.conf"
   ignore_errors: true

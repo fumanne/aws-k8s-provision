@@ -9,14 +9,14 @@
     - /opt/cni/bin
     - /etc/cni/net.d
 
-- name: upgrade all packages
+- name: Upgrade all packages
   yum: name=* state=latest
 
 - name: Setting timezone to UTC
   timezone:
     name: UTC
 
-- name: restart cron (apply UTC)
+- name: Restart cron (apply UTC)
   service:
     name: crond
     state: restarted
@@ -59,7 +59,7 @@
     - ipvsadm
     - conntrack
 
-- name: 删除centos默认安装
+- name: Delete Centos Default Packages
   yum:
     name: "{{ packages }}"
     state: absent

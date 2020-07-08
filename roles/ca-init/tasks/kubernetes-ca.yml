@@ -1,14 +1,10 @@
 ---
 
-- name: 读取kubernetes证书stat信息
-  stat: path="/etc/kubernetes/ssl/kubernetes.pem"
-
-
-- name: 创建 kubernetes 证书签名请求
+- name: Render kubernetes CA CSR
   template: src=kubernetes-csr.json.j2 dest=/etc/kubernetes/ssl/kubernetes-csr.json
 
 
-- name: 创建 kubernetes 证书和私钥
+- name: Create kubernetes CA
   shell: "cd /etc/kubernetes/ssl && /root/local/bin/cfssl gencert \
         -ca=/etc/kubernetes/ssl/ca.pem \
         -ca-key=/etc/kubernetes/ssl/ca-key.pem \

@@ -1,16 +1,16 @@
 ---
 
-- name: 下载 kube-apiserver 二进制
+- name: Copy kube-apiserver binary
   copy: src={{ item }} dest=/root/local/bin/{{ item }} mode=0755
   with_items:
   - kube-apiserver
   - apiextensions-apiserver
 
-- name: 创建 token.csv
+- name: Render token.csv
   template: src=token.csv.j2 dest=/etc/kubernetes/ssl/token.csv
 
-- name: 创建 basic-auth.csv
+- name: Render basic-auth.csv
   template: src=basic-auth.csv.j2 dest=/etc/kubernetes/ssl/basic-auth.csv
 
-- name: 创建cloud-config
+- name:  Render cloud-config
   template: src=aws-cloud-config.j2 dest=/etc/kubernetes/cloud-config

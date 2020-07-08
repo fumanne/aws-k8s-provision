@@ -1,15 +1,15 @@
 ---
-- name: 创建kubelet的systemd unit文件
+- name: Render kubelet systemd service file
   template: src=kubelet.service.j2 dest=/etc/systemd/system/kubelet.service
 
-- name: 开机启用kubelet 服务
+- name: Enable kubelet  service
   shell: systemctl enable kubelet
   ignore_errors: true
 
-- name: 开启kubelet 服务
+- name: Start kubelet service
   shell: systemctl daemon-reload && systemctl restart kubelet
 
-- name: 轮询等待kubelet启动
+- name: Check kubeket running
   shell: "systemctl status kubelet.service|grep Active"
   register: kubelet_status
   until: '"running" in kubelet_status.stdout'

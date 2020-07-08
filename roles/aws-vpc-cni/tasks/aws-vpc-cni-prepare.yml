@@ -8,7 +8,7 @@
     - aws-k8s-cni-cn.yaml
     - cni-metrics-helper-cn.yaml
 
-- name: 获取最新 secret password token
+- name: Get Newest secret password token
   shell: aws ecr get-login --registry-id 961992271922 --region cn-northwest-1 --no-include-email | awk '{print $6}'
   register: token
 

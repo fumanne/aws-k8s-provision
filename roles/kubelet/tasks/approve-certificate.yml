@@ -1,11 +1,11 @@
 ---
 
-- name: 获取csr 请求信息
+- name: Get csr info
   shell: "sleep 10 && /root/local/bin/kubectl get csr"
   register: csr_info
   run_once: true
 
-- name: approve-kubelet-csr
+- name: Approve kubelet csr
   shell: "/root/local/bin/kubectl get csr|grep 'Pending' | awk 'NR>0{print $1}'| \
         xargs /root/local/bin/kubectl certificate approve"
   when: '"Pending" in csr_info.stdout'

@@ -1,10 +1,10 @@
 ---
 
-- name: 临时关闭 selinux
+- name: Disable selinux temporary
   shell: "setenforce 0"
   failed_when: false
 
-- name: 永久关闭 selinux
+- name: Disable selinux forever
   lineinfile:
     dest: /etc/selinux/config
     regexp: "^SELINUX="

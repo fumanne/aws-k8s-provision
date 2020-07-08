@@ -1,11 +1,11 @@
 ---
 
-- name: 创建kube-scheduler的systemd unit文件
+- name: Render kube-scheduler systemd service file
   template: src=kube-scheduler.service.j2 dest=/etc/systemd/system/kube-scheduler.service
 
-- name: enable kube-scheduler 服务
+- name: Enable kube-scheduler service
   shell: systemctl enable kube-scheduler
   ignore_errors: true
 
-- name: 启动 kube-scheduler 服务
+- name: Start kube-scheduler service
   shell: "systemctl daemon-reload && systemctl restart kube-scheduler"

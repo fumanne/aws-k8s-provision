@@ -14,10 +14,10 @@ pushd ${HOME_DIR} >/dev/null
 WGET_CMD="wget -nv -P ."
 ECHO_CMD="echo"
 
-${ECHO_CMD} "\n清理download目录 只保留本脚本"
+${ECHO_CMD} "\nClean Download Dir, Only retain this scripts"
 find . -not -name 'download.sh' -delete
 
-${ECHO_CMD} "\n----download ca tools at:"
+${ECHO_CMD} "\n----Download ca tools:"
 ${WGET_CMD} https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
 ${WGET_CMD} https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
 ${WGET_CMD} https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64
@@ -25,10 +25,10 @@ mv -f cfssl_linux-amd64             ../roles/base-package/files/cfssl
 mv -f cfssljson_linux-amd64         ../roles/base-package/files/cfssljson
 mv -f cfssl-certinfo_linux-amd64    ../roles/base-package/files/cfssl-certinfo
 
-${ECHO_CMD} "\n----download docker binary at:"
+${ECHO_CMD} "\n----Download docker binary:"
 ${WGET_CMD} https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VER}.tgz
 
-${ECHO_CMD} "\n----download docker-compose at:"
+${ECHO_CMD} "\n----Download docker-compose:"
 ${WGET_CMD} https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE}/docker-compose-Linux-x86_64
 
 mv -f docker-compose-Linux-x86_64 ../roles/docker/files/docker-compose
@@ -43,10 +43,10 @@ if [[ -f "docker-${DOCKER_VER}.tgz" ]]; then
     mv -f docker/runc                       ../roles/docker/files/runc
 fi
 
-${ECHO_CMD} "\n----download k8s binary at:"
+${ECHO_CMD} "\n----Download k8s binary:"
 ${WGET_CMD} https://dl.k8s.io/${K8S_VER}/kubernetes-server-linux-amd64.tar.gz
 
-${ECHO_CMD} "\n准备kubernetes二进制程序..."
+${ECHO_CMD} "\nPrepare kubernetes binary...."
 if [[ -f "kubernetes-server-linux-amd64.tar.gz" ]]; then
   ${ECHO_CMD} "\n----extracting kubernetes binaries..."
   tar zxf kubernetes-server-linux-amd64.tar.gz
@@ -59,31 +59,31 @@ if [[ -f "kubernetes-server-linux-amd64.tar.gz" ]]; then
   mv -f kubernetes/server/bin/apiextensions-apiserver       ../roles/kube-apiserver/files/
 fi
 
-${ECHO_CMD} "\n----download etcd binary at:"
+${ECHO_CMD} "\n----Download etcd binary:"
 ${WGET_CMD} https://storage.googleapis.com/etcd/${ETCD_VER}/etcd-${ETCD_VER}-linux-amd64.tar.gz
 
-${ECHO_CMD} "\n准备etcd二进制程序..."
+${ECHO_CMD} "\nPrepare etcd binary..."
 if [[ -f "etcd-${ETCD_VER}-linux-amd64.tar.gz" ]]; then
   ${ECHO_CMD} "\n----extracting etcd binaries..."
   tar zxf etcd-${ETCD_VER}-linux-amd64.tar.gz
   mv -f etcd-${ETCD_VER}-linux-amd64/etcd*      ../roles/etcd/files/
 else
-  ${ECHO_CMD} "请先下载etcd-${ETCD_VER}-linux-amd64.tar.gz"
+  ${ECHO_CMD} "Please Download etcd-${ETCD_VER}-linux-amd64.tar.gz Firstly"
 fi
 
-${ECHO_CMD} "\n----download cni plugins at:"
+${ECHO_CMD} "\n----Download cni plugins:"
 ${WGET_CMD} https://github.com/containernetworking/plugins/releases/download/${CNI_VER}/cni-plugins-linux-amd64-${CNI_VER}.tgz
 
-${ECHO_CMD} "\n准备cni plugins，仅安装flannel需要"
+${ECHO_CMD} "\nPreprae cni plugion binray..."
 if [[ -f "cni-plugins-linux-amd64-${CNI_VER}.tgz" ]]; then
   ${ECHO_CMD} "\n---extracting cni plugins binaries..."
   tar zxf cni-plugins-linux-amd64-${CNI_VER}.tgz -C ../roles/kubelet/files/
 else
-  ${ECHO_CMD} "请先下载cni-${CNI_VER}.tgz"
+  ${ECHO_CMD} "Please download cni-${CNI_VER}.tgz Firstly"
 fi
 
 
-${ECHO_CMD} "\n----download helm at:"
+${ECHO_CMD} "\n----Download helm:"
 ${WGET_CMD} https://get.helm.sh/helm-${HELM}-linux-amd64.tar.gz
 
 if [[ -f "helm-${HELM}-linux-amd64.tar.gz" ]]; then
@@ -91,7 +91,7 @@ if [[ -f "helm-${HELM}-linux-amd64.tar.gz" ]]; then
   tar xvf helm-${HELM}-linux-amd64.tar.gz -C ../roles/helm/files/ --strip-components=1 linux-amd64/helm
 fi
 
-${ECHO_CMD} "\n----download calicoctl at:"
+${ECHO_CMD} "\n----Download calicoctl:"
 ${WGET_CMD} https://github.com/projectcalico/calicoctl/releases/download/${CALICOCTL}/calicoctl
 cp -rf calicoctl ../roles/calico/files/calicoctl
 

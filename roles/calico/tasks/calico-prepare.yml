@@ -1,11 +1,11 @@
 ---
-- name: calico cni 相关目录
+- name: Create calico Dir
   file: name={{ item }} state=directory
   with_items:
   - /root/local/calico
 
-- name: scp calico yaml
+- name: Scp calico yaml
   copy: src=calico.yaml dest=/root/local/calico/calico.yaml mode=0755
 
-- name: scp calicoctl
+- name: Scp calicoctl
   copy: src=calicoctl  dest=/root/local/bin/calicoctl mode=0755

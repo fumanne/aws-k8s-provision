@@ -1,9 +1,9 @@
 ---
-- name: 禁用系统 swap
+- name: Disable swap
   shell: "swapoff -a && sysctl -w vm.swappiness=0"
   ignore_errors: true
 
-- name: 删除fstab swap 相关配置
+- name: Delete fstab swap in fstab
   lineinfile:
     path: /etc/fstab
     regexp: 'swap'

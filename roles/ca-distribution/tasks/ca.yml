@@ -1,6 +1,6 @@
 ---
 
-- name: 分发ca 根证书 至所有节点
+- name: Distrube root CA to all node
   copy: src={{ item }} dest={{ item }} mode=0755 owner=root
   with_items:
     - /etc/kubernetes/ssl/ca.pem

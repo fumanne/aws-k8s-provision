@@ -6,12 +6,12 @@
     - /var/lib/kubelet
     - /etc/cni/net.d
 
-- name: 下载 kubelet
+- name: Copy kubelet binary
   copy: src={{ item }} dest=/root/local/bin/{{ item }} mode=0755
   with_items:
   - kubelet
 
-- name: 将cni plguin 放入 /opt/cni/bin 下
+- name: Put cni plguin in /opt/cni/bin
   copy: src={{ item }} dest=/opt/cni/bin/{{ item }} mode=0755
   with_items:
   - bridge
@@ -26,9 +26,9 @@
   - macvlan
 
 
-- name: 准备 cni配置文件
+- name: Render cni config file
   template: src=cni-default.conf.j2 dest=/etc/cni/net.d/10-default.conf
 
-- name: 创建cloud-config
+- name: Render cloud-config file
   template: src=aws-cloud-config.j2 dest=/etc/kubernetes/cloud-config
 

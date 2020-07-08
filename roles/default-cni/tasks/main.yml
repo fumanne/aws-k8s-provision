@@ -1,6 +1,6 @@
 ---
 
-- name: remove default cni
+- name: Remove default cni
   file: path=/etc/cni/net.d/10-default.conf state=absent
   tags:
     - default-cni

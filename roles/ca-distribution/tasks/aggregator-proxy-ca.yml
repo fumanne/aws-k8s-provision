@@ -1,5 +1,5 @@
 ---
-- name: 分发 aggregator-proxy 证书 至所有master节点
+- name: Distrube aggregator-proxy CA to all node
   copy: src={{ item }} dest={{ item }} mode=0755 owner=root
   with_items:
     - /etc/kubernetes/ssl/aggregator-proxy.pem

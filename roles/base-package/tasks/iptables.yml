@@ -1,6 +1,6 @@
 ---
 
-- name: update iptables v1.6.2
+- name: Update iptables v1.6.2
   shell: |
     export LC_ALL=C
     cd /tmp
@@ -17,7 +17,7 @@
     cp /usr/local/sbin/iptables-restore /usr/sbin/
 
 
-- name: flush-iptables
+- name: Flush iptables
   shell: "iptables -F && iptables -X \
         && iptables -F -t nat && iptables -X -t nat \
         && iptables -F -t raw && iptables -X -t raw \

@@ -1,6 +1,6 @@
 ---
 
-- name: 分发 kubernetes 证书 至所有节点
+- name: Distrube kubernetes CA to all node
   copy: src={{ item }} dest={{ item }} mode=0755 owner=root
   with_items:
     - /etc/kubernetes/ssl/kubernetes.pem

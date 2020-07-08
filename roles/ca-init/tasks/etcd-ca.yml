@@ -1,9 +1,9 @@
 ---
 
-- name: 创建etcd证书请求
+- name: Render etcd CSR
   template: src=etcd-csr.json.j2 dest=/etc/kubernetes/ssl/etcd-csr.json
 
-- name: 创建 etcd证书和私钥
+- name: Create etcd CA
   shell: "cd /etc/kubernetes/ssl && /root/local/bin/cfssl gencert \
         -ca=/etc/kubernetes/ssl/ca.pem \
         -ca-key=/etc/kubernetes/ssl/ca-key.pem \

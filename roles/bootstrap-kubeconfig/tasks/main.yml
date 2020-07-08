@@ -1,11 +1,11 @@
 ---
 # 在kube-apiserver 启动后, 单个节点执行即可
 
-- name: get clusterrolebinding info
+- name: Get clusterrolebinding info
   shell: "/root/local/bin/kubectl get clusterrolebinding --all-namespaces"
   register: clusterrolebinding_info
 
-- name: kubelet-bootstrap-setting
+- name: Set kubelet-bootstrap
   shell: "/root/local/bin/kubectl create clusterrolebinding kubelet-bootstrap \
         --clusterrole=system:node-bootstrapper --user=kubelet-bootstrap"
   when: '"kubelet-bootstrap" not in clusterrolebinding_info.stdout'

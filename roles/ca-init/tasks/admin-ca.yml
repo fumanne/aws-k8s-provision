@@ -1,31 +1,31 @@
 ---
-- name: 准备kubectl使用的admin 证书签名请求
+- name: Render admin CA CSR
   template: src=admin-csr.json.j2 dest=/etc/kubernetes/ssl/admin-csr.json
 
-- name: 创建 admin证书与私钥
+- name: Create admin CA
   shell: "cd /etc/kubernetes/ssl && /root/local/bin/cfssl gencert \
         -ca=/etc/kubernetes/ssl/ca.pem \
         -ca-key=/etc/kubernetes/ssl/ca-key.pem \
         -config=/etc/kubernetes/ssl/ca-config.json \
         -profile=kubernetes admin-csr.json | /root/local/bin/cfssljson -bare admin"
 
-- name: 设置集群参数
+- name: Set cluster name by kubernetes
   shell: "/root/local/bin/kubectl config set-cluster kubernetes \
         --certificate-authority=/etc/kubernetes/ssl/ca.pem \
         --embed-certs=true \
         --server={{ KUBE_APISERVER }}"
 
-- name: 设置客户端认证参数
+- name: Set credentials for cluster by admin auth
   shell: "/root/local/bin/kubectl config set-credentials admin \
         --client-certificate=/etc/kubernetes/ssl/admin.pem \
         --embed-certs=true \
         --client-key=/etc/kubernetes/ssl/admin-key.pem"
 
-- name: 设置上下文参数
+- name: Set context for cluster by admin
   shell: "/root/local/bin/kubectl config set-context kubernetes \
         --cluster=kubernetes --user=admin"
 
-- name: 选择默认上下文
+- name: Use  context by kubernete
   shell: "/root/local/bin/kubectl config use-context kubernetes"
 
 
