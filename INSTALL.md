@@ -7,7 +7,8 @@
     `节点创建完成后, 需要对节点赋予IAM role 权限. 请自行参考aws 文档`
        
 3.  到download目录, 执行download.sh(请自行翻墙) 会将k8s相关文件download 至 相关role的files 中.
-    k8s 的bainary 文件 以git lfs 方式存储. 自行对仓库安装git lfs 插件
+    ~~k8s 的bainary 文件 以git lfs 方式存储. 自行对仓库安装git lfs 插件~~
+    由于github 的lfs 存储已满, 取消了git lfs 模式存储. 请download 完后自行打包仓库 copy 至 你的deploy server
 
     `cd download; sh download.sh`
       
