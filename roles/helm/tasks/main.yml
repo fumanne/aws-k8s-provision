@@ -5,3 +5,9 @@
     - helm
   tags:
     - helm
+
+- name: Set Helm Stable repo
+  shell: |
+    /root/local/bin/helm repo add stable https://fumanne.github.io/helm-chart-mirror
+  tags:
+    - helm-stable-repo
