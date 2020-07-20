@@ -1,0 +1,8 @@
+---
+
+- name: Scp admin service account yaml File
+  copy: src=admin-serviceaccount.yaml dest=/root/{{ item }} mode=0755
+
+- name: Create admin service account
+  shell: |
+    /root/local/bin/kubectl apply -f /root/admin-serviceaccount.yaml
