@@ -46,6 +46,7 @@
   roles:
     - helm
     - aws-ebs
+    - admin-serviceaccount
 
 - name: master setting
   hosts: kube-master

@@ -1,7 +1,7 @@
 **roles sequence:**
 
     base-package  ->  os ->  docker -> ca-init -> ca-distrubution -> etcd -> kube-apiserver -> kube-controller-manager -> kube-scheduler -> 
-    boostrap-kubeconfig ->  kube-proxy -> kubelet ->  calico | flannel | aws-vpc-cni -> default-cni ->  helm -> aws-ebs -> charts
+    boostrap-kubeconfig ->  kube-proxy -> kubelet ->  calico | flannel | aws-vpc-cni -> default-cni ->  helm -> aws-ebs -> admin-serviceaccount -> charts
     
 base-package: 初始化目录 以及安装package，iptables
 
@@ -40,3 +40,5 @@ default-cni: 删除一开始kubeket 启动时候的cni 配置
 clean: 删除k8s 所有资源.. 用于重建k8s
 
 charts: 使用helm3 安装的k8s资源 比如(metrics-server, coredns, prometheus 等等这种可以自行添加)
+
+admin-serviceaccount: 创建以cluster-admin 为权限 名为admin 的serviceaccount的用户(已供远程kubectl 设置credentials 后访问)
