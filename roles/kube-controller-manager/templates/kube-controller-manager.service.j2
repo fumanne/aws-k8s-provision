@@ -17,6 +17,7 @@ ExecStart=/root/local/bin/kube-controller-manager \
   --experimental-cluster-signing-duration=876000h0m0s \
   --controllers=*,bootstrapsigner,tokencleaner \
   --horizontal-pod-autoscaler-use-rest-clients=true \
+  --feature-gates=RotateKubeletServerCertificate=true \
   --leader-elect=true \
   --cloud-provider=aws \
   --cloud-config=/etc/kubernetes/cloud-config \

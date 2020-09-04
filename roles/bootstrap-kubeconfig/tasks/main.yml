@@ -10,4 +10,16 @@
         --clusterrole=system:node-bootstrapper --user=kubelet-bootstrap"
   when: '"kubelet-bootstrap" not in clusterrolebinding_info.stdout'
 
-
+# 首次节点启动后 让kube-apiserver 自动批准csr 请求.
+# 原理说明:
+# 在kubeapi-server 中针对 节点首次请求 有--token-auth-file=/etc/kubernetes/ssl/token.csv  --enable-bootstrap-token-auth=true 这
+# 2个参数. token.csv 中我们定义了一个叫kubelet-bootstrap 的用户,所属组叫system:kubelet-bootstrap  所以针对这组或者用户, 让它有批准csr的权限
+# 即可实现自动批准. 在kubernetes 1.9 版本后 已经存在这样的权限(内置) 分别为
+# clusterrole.rbac.authorization.k8s.io/system:certificates.k8s.io:certificatesigningrequests:nodeclient
+# clusterrole.rbac.authorization.k8s.io/system:certificates.k8s.io:certificatesigningrequests:selfnodeclient
+# 第一个就是首次节点连接 apiserver 后的证书批准
+# 第二个 是 后续证书自动续期的权限
+# 所以 只需 将group kubelet-bootstrap 和第一个权限绑定即可
+- name: Create clusterrolebindings for auto approve csr
+  shell: kubectl create clusterrolebinding node-client-auto-approve-csr --clusterrole=system:certificates.k8s.io:certificatesigningrequests:nodeclient  --group=system:kubelet-bootstrap
+  ignore_errors: true
