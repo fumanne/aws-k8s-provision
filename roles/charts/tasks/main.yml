@@ -8,6 +8,6 @@
   tags:
     - metrics-server
 
-- import_tasks: nginx-ingress.yml
-  tags:
-    - nginx-ingress
+#- import_tasks: nginx-ingress.yml
+#  tags:
+#    - nginx-ingress
