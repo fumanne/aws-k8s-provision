@@ -11,7 +11,6 @@ ExecStart=/root/local/bin/kube-apiserver \
   --authorization-mode=Node,RBAC \
   --kubelet-https=true \
   --anonymous-auth=false \
-  --basic-auth-file=/etc/kubernetes/ssl/basic-auth.csv \
   --enable-bootstrap-token-auth=true \
   --token-auth-file=/etc/kubernetes/ssl/token.csv \
   --service-cluster-ip-range=10.68.0.0/16 \
