@@ -1,4 +1,5 @@
 ---
+# 如果service 要用LoadBalancer 类型, 需要在aws vpc中将公有子网 打上 KubernetesClusterTag 的tag, Value 随意
 
 - name: Install Promtheus with Helm
   shell: |
