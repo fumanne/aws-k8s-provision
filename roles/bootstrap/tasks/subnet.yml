@@ -16,7 +16,7 @@
     az: "{{ item.az }}"
     region: "{{ common.region }}"
     tags:
-      Name: "KubernetesClusterTag"
+      KubernetesClusterTag: kubernetes
     state: present
   with_items: "{{ subnet }}"
   register: subnet_info
