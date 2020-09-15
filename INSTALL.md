@@ -48,8 +48,8 @@
             "Resource": "arn:aws-cn:ec2:*:*:network-interface/*"
         },
     ]
-}
-    
+    }
+
     
        
 3.  到download目录, 执行download.sh(请自行翻墙) 会将k8s相关文件download 至 相关role的files 中.
