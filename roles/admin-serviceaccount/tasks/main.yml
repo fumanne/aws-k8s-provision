@@ -1,7 +1,7 @@
 ---
 
 - name: Scp admin service account yaml File
-  copy: src=admin-serviceaccount.yaml dest=/root/{{ item }} mode=0755
+  copy: src=admin-serviceaccount.yaml dest=/root/admin-serviceaccount.yaml mode=0755
   tags:
     - admin-sa
 
