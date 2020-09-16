@@ -21,5 +21,5 @@
 # 第二个 是 后续证书自动续期的权限
 # 所以 只需 将group kubelet-bootstrap 和第一个权限绑定即可
 - name: Create clusterrolebindings for auto approve csr
-  shell: kubectl create clusterrolebinding node-client-auto-approve-csr --clusterrole=system:certificates.k8s.io:certificatesigningrequests:nodeclient  --group=system:kubelet-bootstrap
+  shell: /root/local/bin/kubectl create clusterrolebinding node-client-auto-approve-csr --clusterrole=system:certificates.k8s.io:certificatesigningrequests:nodeclient  --group=system:kubelet-bootstrap
   ignore_errors: true
