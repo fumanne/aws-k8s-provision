@@ -3,4 +3,4 @@
 
 - name: Install Promtheus with Helm
   shell: |
-    /root/local/bin/helm upgrade -i prometheus --namespace kube-system --set server.service.type=LoadBalancer,server.retention="7d",server.service.annotations."service\.beta\.kubernetes\.io/aws-load-balancer-typ"e=nlb --debug --wait --force stable/prometheus
+    /root/local/bin/helm upgrade -i prometheus --namespace kube-system --set server.service.type=LoadBalancer,server.retention="7d",server.service.annotations."service\.beta\.kubernetes\.io/aws-load-balancer-type"=nlb --debug --wait --force stable/prometheus
