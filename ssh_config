@@ -4,43 +4,43 @@ Host *
    StrictHostKeyChecking no
    UserKnownHostsFile=/dev/null
 
-Host node10
-  HostName 192.168.1.5
-  User ec2-user
-  IdentityFile  roles/bootstrap/files/aws-my-ssh-key.pem
+Host deploy01
+  HostName 52.194.210.4
+  User root
+  IdentityFile  roles/bootstrap/files/MyTest.pem
 
-Host node11
-  HostName 192.168.2.162
-  User ec2-user
-  IdentityFile  roles/bootstrap/files/aws-my-ssh-key.pem
-#  ProxyCommand ssh -F ssh_config -W %h:%p node10
+Host master1
+  HostName 10.0.2.16
+  User root
+  IdentityFile  roles/bootstrap/files/MyTest.pem
+#  ProxyCommand ssh -F ssh_config -W %h:%p deploy01
 
-Host node12
-  HostName 192.168.2.168
-  User ec2-user
-  IdentityFile  roles/bootstrap/files/aws-my-ssh-key.pem
-#  ProxyCommand ssh -F ssh_config -W %h:%p node10
+Host master2
+  HostName 10.0.2.67
+  User root
+  IdentityFile  roles/bootstrap/files/MyTest.pem
+#  ProxyCommand ssh -F ssh_config -W %h:%p deploy01
 
-Host node13
-  HostName 192.168.4.158
-  User ec2-user
-  IdentityFile  roles/bootstrap/files/aws-my-ssh-key.pem
-#  ProxyCommand ssh -F ssh_config -W %h:%p node10
+Host master3
+  HostName 10.0.2.119
+  User root
+  IdentityFile  roles/bootstrap/files/MyTest.pem
+#  ProxyCommand ssh -F ssh_config -W %h:%p deploy01
 
-Host node14
-  HostName 192.168.2.40
-  User ec2-user
-  IdentityFile  roles/bootstrap/files/aws-my-ssh-key.pem
-#  ProxyCommand ssh -F ssh_config -W %h:%p node10
+Host node1
+  HostName 10.0.2.158
+  User root
+  IdentityFile  roles/bootstrap/files/MyTest.pem
+#  ProxyCommand ssh -F ssh_config -W %h:%p deploy01
 
-Host node15
-  HostName 192.168.2.142
-  User ec2-user
-  IdentityFile  roles/bootstrap/files/aws-my-ssh-key.pem
-#  ProxyCommand ssh -F ssh_config -W %h:%p node10
+Host node2
+  HostName 10.0.2.194
+  User root
+  IdentityFile  roles/bootstrap/files/MyTest.pem
+#  ProxyCommand ssh -F ssh_config -W %h:%p deploy01
 
-Host node16
-  HostName 192.168.4.175
-  User ec2-user
-  IdentityFile  roles/bootstrap/files/aws-my-ssh-key.pem
-#  ProxyCommand ssh -F ssh_config -W %h:%p node10
+Host node3
+  HostName 10.0.2.205
+  User root
+  IdentityFile  roles/bootstrap/files/MyTest.pem
+#  ProxyCommand ssh -F ssh_config -W %h:%p deploy01

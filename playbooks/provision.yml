@@ -55,7 +55,7 @@
       shell: /root/local/bin/kubectl label node {{ hostname }} node-role.kubernetes.io/master="" --overwrite
 
     - name: Taint Master
-      shell: /root/local/bin/kubectl taint node {{ hostname }} node-role.kubernetes.io/master=true:NoSchedule
+      shell: /root/local/bin/kubectl taint node {{ hostname }} node-role.kubernetes.io/master=true:NoSchedule --overwrite
   tags:
     - master-label
 

@@ -70,8 +70,13 @@
     **KUBE_APISERVER 地址 为 手动创建一个network 的elb 的地址**
     **侦听器: 80 -> 6443**
     **健康检查: TCP:6443**
+    **安全组： 放行6443**
     
+   **aws 的subnet/ route table/ ec2 都要设置tag**
    
+   **key    ==> KubernetesCluster (key随便)**
+   
+   **value  ==> kubernetes**
               
 5. 代码copy 至 deploy机器 并执行
     ansible-playbook -i hosts.ini playbooks/provision.yml  

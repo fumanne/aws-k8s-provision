@@ -29,14 +29,10 @@
   vars:
     packages:
     - bind-utils
-    - unzip
-    - htop
-    - jq
     - wget
     - NetworkManager
     - dstat
     - bash-completion
-    - python-pip
     - telnet
     - gcc
     - make
@@ -58,6 +54,7 @@
     - ipset
     - ipvsadm
     - conntrack
+  ignore_errors: yes
 
 - name: Delete Centos Default Packages
   yum:
@@ -78,4 +75,9 @@
     - kubectl
 
 - name: Copy SSH Private Key
-  copy: src={{ role_path }}/../bootstrap/files/aws-my-ssh-key.pem dest=/root/aws-my-ssh-key.pem mode=0600
+  copy:
+    src: "{{ item }}"
+    dest: /root/
+    mode: 0600
+  with_fileglob:
+    - "{{ role_path }}/../bootstrap/files/*.pem"
