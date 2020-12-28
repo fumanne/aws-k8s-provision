@@ -8,6 +8,7 @@
 
 - name: Set Helm Stable repo
   shell: |
-    /root/local/bin/helm repo add stable https://fumanne.github.io/helm-chart-mirror
+    /root/local/bin/helm repo add stable https://charts.helm.sh/stable
+    /root/local/bin/helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
   tags:
     - helm-stable-repo

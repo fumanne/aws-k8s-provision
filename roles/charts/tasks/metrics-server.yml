@@ -2,4 +2,5 @@
 
 - name: Install metrics-server with Helm
   shell: |
-    /root/local/bin/helm upgrade -i metrics-server --namespace kube-system --set args={"--kubelet-insecure-tls", "--kubelet-preferred-address-types=InternalIP,Hostname,InternalDNS,ExternalDNS,ExternalIP"},image.repository=mirrorgooglecontainers/metrics-server-amd64,hostNetwork.enabled=true --debug --wait --force stable/metrics-server
+    # /root/local/bin/helm upgrade -i metrics-server --namespace kube-system --set args={"--kubelet-insecure-tls", "--kubelet-preferred-address-types=InternalIP,Hostname,InternalDNS,ExternalDNS,ExternalIP"},image.repository=mirrorgooglecontainers/metrics-server-amd64,hostNetwork.enabled=true --debug --wait --force stable/metrics-server
+    /root/local/bin/helm upgrade -i metrics-server --namespace kube-system --set args={"--kubelet-insecure-tls"},hostNetwork.enabled=true --debug --wait --force stable/metrics-server
