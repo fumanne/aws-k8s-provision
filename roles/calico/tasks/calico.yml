@@ -2,3 +2,4 @@
 - name: Deploy calico with Yaml
   shell: |
     /root/local/bin/kubectl apply -f /root/local/calico/calico.yaml
+  delegate_to: localhost

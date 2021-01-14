@@ -44,3 +44,15 @@ Host node3
   User root
   IdentityFile  roles/bootstrap/files/MyTest.pem
 #  ProxyCommand ssh -F ssh_config -W %h:%p deploy01
+
+
+Host new-node1
+  HostName 10.0.2.72
+  User root
+  IdentityFile  roles/bootstrap/files/MyTest.pem
+
+
+Host new-node2
+  HostName 10.0.2.206
+  User root
+  IdentityFile  roles/bootstrap/files/MyTest.pem

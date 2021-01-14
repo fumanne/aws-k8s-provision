@@ -1,0 +1,21 @@
+---
+
+- hosts: new-kube-node
+  roles:
+    - base-package
+    - os
+    - docker
+    - ca-distribution
+    - kubelet
+    - kube-proxy
+    - default-cni
+
+
+- name:  node setting
+  hosts: new-kube-node
+  tasks:
+    - name: Set Node label
+      shell: /root/local/bin/kubectl label node {{ hostname }} node-role.kubernetes.io/node="" --overwrite
+  tags:
+    - node-label
+
