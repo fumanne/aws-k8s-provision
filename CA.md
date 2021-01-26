@@ -8,7 +8,9 @@
 
 ### kubectl: 使用 ca.pem, admin-key.pem, admin.pem
 
-### kube-controller-manager: 使用 ca-key.pem, ca.pem
+### kube-controller-manager: 使用 ca.pem, kube-controller-manager-key.pem, kube-controller-manager.pem
+
+### kube-scheduler: 使用 ca.pem, kube-scheduler-key.pem, kube-scheduler.pem
 
 ### aggregator-proxy: 使用ca.pem, aggregator-proxy-key.pem, aggregator-proxy.pem
 
