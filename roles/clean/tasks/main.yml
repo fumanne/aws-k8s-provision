@@ -22,8 +22,10 @@
     iptables -t mangle -F
     iptables -F
     iptables -X
-  delegate_to: "{{ item }}"
-  loop: "{{ groups['kube-master'] }}"
+  when:
+    k8s_role == "master"
+#  delegate_to: "{{ item }}"
+#  loop: "{{ groups['kube-master'] }}"
 
 - name:  Clean kube-node
   shell: |
@@ -36,6 +38,7 @@
     iptables -t mangle -F
     iptables -F
     iptables -X
-  delegate_to: "{{ item }}"
-  loop: "{{ groups['kube-node'] }}"
-
+#  delegate_to: "{{ item }}"
+#  loop: "{{ groups['kube-node'] }}"
+  when:
+    k8s_role == "node"

@@ -12,9 +12,17 @@
   tags:
     - bootstrap-ca-init
 
-- import_tasks: kubeproxy-ca.yml
+- import_tasks: kube-proxy-ca.yml
   tags:
-    - kubeproxy-ca-init
+    - kube-proxy-ca-init
+
+- import_tasks: kube-scheduler-ca.yml
+  tags:
+    - kube-scheduler-ca-init
+
+- import_tasks: kube-controller-manager-ca.yml
+  tags:
+    - kube-controller-manager-ca-init
 
 - import_tasks: kubernetes-ca.yml
   tags:

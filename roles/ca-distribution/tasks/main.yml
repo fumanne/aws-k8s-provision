@@ -12,9 +12,17 @@
   tags:
     - bootstrap-ca-distribution
 
-- import_tasks: kubeproxy-ca.yml
+- import_tasks: kube-proxy-ca.yml
   tags:
-    - kubeproxy-ca-distribution
+    - kube-proxy-ca-distribution
+
+- import_tasks: kube-controller-manager-ca.yml
+  tags:
+    - kube-controller-manager-distribution
+
+- import_tasks: kube-scheduler-ca.yml
+  tags:
+    - kube-scheduler-distribution
 
 - import_tasks: kubernetes-ca.yml
   tags:

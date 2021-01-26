@@ -4,24 +4,25 @@ Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 
 [Service]
 ExecStart=/root/local/bin/kube-controller-manager \
-  --address=0.0.0.0 \
-  --master=http://127.0.0.1:8080 \
+  --bind-address=0.0.0.0 \
   --allocate-node-cidrs=true \
+  --authentication-kubeconfig=/etc/kubernetes/kube-controller-manager.kubeconfig \
+  --authorization-kubeconfig=/etc/kubernetes/kube-controller-manager.kubeconfig \
+  --kubeconfig=/etc/kubernetes/kube-controller-manager.kubeconfig \
   --service-cluster-ip-range=10.68.0.0/16 \
   --cluster-cidr=172.20.0.0/16 \
   --cluster-name=kubernetes \
   --cluster-signing-cert-file=/etc/kubernetes/ssl/ca.pem \
   --cluster-signing-key-file=/etc/kubernetes/ssl/ca-key.pem \
   --service-account-private-key-file=/etc/kubernetes/ssl/ca-key.pem \
+  --use-service-account-credentials=true \
   --root-ca-file=/etc/kubernetes/ssl/ca.pem \
-  --experimental-cluster-signing-duration=876000h0m0s \
   --controllers=*,bootstrapsigner,tokencleaner \
-  --horizontal-pod-autoscaler-use-rest-clients=true \
-  --feature-gates=RotateKubeletServerCertificate=true \
+  --cluster-signing-duration=87600h0m0s \
   --leader-elect=true \
   --cloud-provider=aws \
   --cloud-config=/etc/kubernetes/cloud-config \
-  --v=2
+  --v=4
 Restart=on-failure
 RestartSec=5
 

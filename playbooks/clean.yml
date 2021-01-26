@@ -1,4 +1,12 @@
 ---
-- hosts: deploy
+- hosts: kube-master
   roles:
     - clean
+  vars:
+    k8s_role: "master"
+
+- hosts: kube-node
+  roles:
+    - clean
+  vars:
+    k8s_role: "node"

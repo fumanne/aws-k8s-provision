@@ -1,5 +1,5 @@
 ---
-- name: Distrube kube-porxy config to all node
+- name: Distrube kube-proxy config to all node
   copy: src={{ item }} dest={{ item }} mode=0755 owner=root
   with_items:
     - /etc/kubernetes/kube-proxy.kubeconfig

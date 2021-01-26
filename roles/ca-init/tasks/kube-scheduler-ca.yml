@@ -1,0 +1,37 @@
+---
+
+- name: Render kube-scheduler CA CSR
+  template: src=kube-scheduler-csr.json.j2 dest=/etc/kubernetes/ssl/kube-scheduler-csr.json
+
+- name: Create kube-scheduler CA
+  shell: "cd /etc/kubernetes/ssl && /root/local/bin/cfssl gencert \
+        -ca=/etc/kubernetes/ssl/ca.pem \
+        -ca-key=/etc/kubernetes/ssl/ca-key.pem \
+        -config=/etc/kubernetes/ssl/ca-config.json \
+        -profile=kubernetes kube-scheduler-csr.json | /root/local/bin/cfssljson -bare kube-scheduler"
+
+- name: Set cluster for add kube-scheduler
+  shell: "/root/local/bin/kubectl config set-cluster kubernetes \
+        --certificate-authority=/etc/kubernetes/ssl/ca.pem \
+        --embed-certs=true \
+        --server={{ KUBE_APISERVER }} \
+        --kubeconfig=/etc/kubernetes/kube-scheduler.kubeconfig"
+
+- name: Set credentials for cluster by kube-scheduler
+  shell: "/root/local/bin/kubectl config set-credentials kube-scheduler \
+        --client-certificate=/etc/kubernetes/ssl/kube-scheduler.pem \
+        --client-key=/etc/kubernetes/ssl/kube-scheduler-key.pem \
+        --embed-certs=true \
+        --kubeconfig=/etc/kubernetes/kube-scheduler.kubeconfig"
+
+- name: Set context for cluster by kube-scheduler
+  shell: "/root/local/bin/kubectl config set-context default \
+        --cluster=kubernetes \
+        --user=kube-scheduler \
+        --kubeconfig=/etc/kubernetes/kube-scheduler.kubeconfig"
+
+- name: Use context by kube-scheduler
+  shell: "/root/local/bin/kubectl config use-context default --kubeconfig=/etc/kubernetes/kube-scheduler.kubeconfig"
+
+
+

@@ -1,0 +1,5 @@
+---
+
+- name: Install kubernetes-dashboard with Helm
+  shell: |
+    /root/local/bin/helm upgrade -i kubernetes-dashboard --namespace kube-system --set service.type=NodePort --set extraArgs={"--enable-insecure-login"}  --debug --wait --force kubernetes-dashboard/kubernetes-dashboard

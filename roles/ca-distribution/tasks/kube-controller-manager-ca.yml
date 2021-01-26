@@ -1,0 +1,8 @@
+---
+- name: Distrube kube-controller-manager config to all node
+  copy: src={{ item }} dest={{ item }} mode=0755 owner=root
+  with_items:
+    - /etc/kubernetes/kube-controller-manager.kubeconfig
+    - /etc/kubernetes/ssl/kube-controller-manager.pem
+    - /etc/kubernetes/ssl/kube-controller-manager-key.pem
+    - /etc/kubernetes/ssl/kube-controller-manager.csr

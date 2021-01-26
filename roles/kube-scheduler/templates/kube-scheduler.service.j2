@@ -3,11 +3,13 @@ Description=Kubernetes Scheduler
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 
 [Service]
-ExecStart=/root/local/bin//kube-scheduler \
-  --address=0.0.0.0 \
-  --master=http://127.0.0.1:8080 \
+ExecStart=/root/local/bin/kube-scheduler \
+  --bind-address=0.0.0.0 \
+  --authentication-kubeconfig=/etc/kubernetes/kube-scheduler.kubeconfig \
+  --authorization-kubeconfig=/etc/kubernetes/kube-scheduler.kubeconfig \
+  --kubeconfig=/etc/kubernetes/kube-scheduler.kubeconfig \
   --leader-elect=true \
-  --v=2
+  --v=4
 Restart=on-failure
 RestartSec=5
 

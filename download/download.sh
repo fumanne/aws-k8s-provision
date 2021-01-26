@@ -2,7 +2,7 @@
 
 export DOCKER_VER=19.03.9
 export DOCKER_COMPOSE=1.26.1
-export K8S_VER=v1.19.1
+export K8S_VER=v1.20.2
 export ETCD_VER=v3.3.17
 export CNI_VER=v0.8.6
 export HELM=v3.2.4

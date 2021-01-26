@@ -14,9 +14,9 @@
   uri:
     url: "{{ KUBE_APISERVER }}"
     method: GET
-    status_code: 401
+    status_code: 401, 403
     validate_certs: no
   register: _result
-  until: _result.status == 401
+  until: _result.status == 401 or _result.status == 403
   retries: 30 # retry X times
   delay: 10 # pause for X sexc b/w each call

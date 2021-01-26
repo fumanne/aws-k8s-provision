@@ -8,6 +8,10 @@
   tags:
     - metrics-server
 
+- import_tasks: kubernetes-dashboard.yml
+  tags:
+    - kubernetes-dashboard
+
 #- import_tasks: nginx-ingress.yml
 #  tags:
 #    - nginx-ingress

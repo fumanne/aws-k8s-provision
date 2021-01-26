@@ -6,7 +6,7 @@
     - os
     - docker
 
-- hosts: deploy
+- hosts: k8s-deploy
   roles:
     - ca-init
 
@@ -23,7 +23,7 @@
     - kubelet
     - kube-proxy
 
-- hosts: deploy
+- hosts: k8s-deploy
   roles:
     - bootstrap-kubeconfig
 
@@ -32,7 +32,7 @@
     - kubelet
     - kube-proxy
 
-- hosts: deploy
+- hosts: k8s-deploy
   roles:
     - { role: calico, when: "CLUSTER_NETWORK == 'calico'" }
     - { role: aws-vpc-cni, when: "CLUSTER_NETWORK == 'aws-vpc-cni'" }
@@ -42,7 +42,7 @@
   roles:
     - default-cni
 
-- hosts: deploy
+- hosts: k8s-deploy
   roles:
     - helm
     - aws-ebs
@@ -55,7 +55,7 @@
       shell: /root/local/bin/kubectl label node {{ hostname }} node-role.kubernetes.io/master="" --overwrite
 
     - name: Taint Master
-      shell: /root/local/bin/kubectl taint node {{ hostname }} node-role.kubernetes.io/master=true:NoSchedule
+      shell: /root/local/bin/kubectl taint node {{ hostname }} node-role.kubernetes.io/master=true:NoSchedule --overwrite
   tags:
     - master-label
 
@@ -67,6 +67,6 @@
   tags:
     - node-label
 
-- hosts: deploy
+- hosts: k8s-deploy
   roles:
     - charts
